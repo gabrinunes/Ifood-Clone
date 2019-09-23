@@ -69,7 +69,7 @@ public class EmpresaActivity extends AppCompatActivity {
     private void deslogarUsuario() {
          try{
             autenticacao.signOut();
-            startActivity(new Intent(EmpresaActivity.this,HomeActivity.class));
+            finish();
          }catch (Exception e){
              e.printStackTrace();
          }
