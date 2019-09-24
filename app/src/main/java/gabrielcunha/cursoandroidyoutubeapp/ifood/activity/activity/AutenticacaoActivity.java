@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase;
-import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.ConfiguracaoFirebase;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 
 public class AutenticacaoActivity extends AppCompatActivity {
 
@@ -159,8 +159,8 @@ public class AutenticacaoActivity extends AppCompatActivity {
     }
 
     private void inicializaComponentes() {
-        campoEmail = findViewById(R.id.editCadastroEmail);
-        campoSenha = findViewById(R.id.editCadastroSenha);
+        campoEmail = findViewById(R.id.editNomeEmpresa);
+        campoSenha = findViewById(R.id.editCategoria);
         botaoAcessar = findViewById(R.id.buttonAcesso);
         tipoAcesso = findViewById(R.id.switchTipoAcesso);
         tipoUsuario = findViewById(R.id.switchTipoUsuario);

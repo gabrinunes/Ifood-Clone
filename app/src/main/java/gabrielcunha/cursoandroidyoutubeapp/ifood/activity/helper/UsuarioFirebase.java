@@ -4,8 +4,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.ConfiguracaoFirebase;
-
 public class UsuarioFirebase {
 
     public static  String getIdUusuario(){

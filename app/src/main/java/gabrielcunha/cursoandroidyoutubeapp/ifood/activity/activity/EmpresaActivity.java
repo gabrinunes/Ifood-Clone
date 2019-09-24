@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.google.firebase.auth.FirebaseAuth;
 
 import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
-import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.ConfiguracaoFirebase;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 
 public class EmpresaActivity extends AppCompatActivity {
 

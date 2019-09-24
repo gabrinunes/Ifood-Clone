@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "311035159266",
-    "firebase_url": "https://ifood-21cef.firebaseio.com",
-    "project_id": "ifood-21cef",
-    "storage_bucket": "ifood-21cef.appspot.com"
+    "project_number": "999573319441",
+    "firebase_url": "https://ifood-12ddb.firebaseio.com",
+    "project_id": "ifood-12ddb",
+    "storage_bucket": "ifood-12ddb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:311035159266:android:b1d2bd536365fa39a5b4bb",
+        "mobilesdk_app_id": "1:999573319441:android:46162a2ccb4ca1c2f126b0",
         "android_client_info": {
           "package_name": "gabrielcunha.cursoandroidyoutubeapp.ifood"
         }
       },
       "oauth_client": [
         {
-          "client_id": "311035159266-qgf3tbom6crsg5jdmpsc0r4g563dh2fv.apps.googleusercontent.com",
+          "client_id": "999573319441-ss49mp20l2nosc0kh5i4pbfrhm1hip5t.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "gabrielcunha.cursoandroidyoutubeapp.ifood",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "311035159266-21mvsktis69ba8h2bcg2up9vkia30oji.apps.googleusercontent.com",
+          "client_id": "999573319441-bplgbvj143fc618fa5io87tglj3e4hdj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmh_PVLiIE2gUGBA2-zY30rWhdNOU_ZFk"
+          "current_key": "AIzaSyAeJ3X223NKGgQk7G3SnZRmMGzBT-qsX3A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "311035159266-21mvsktis69ba8h2bcg2up9vkia30oji.apps.googleusercontent.com",
+              "client_id": "999573319441-bplgbvj143fc618fa5io87tglj3e4hdj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

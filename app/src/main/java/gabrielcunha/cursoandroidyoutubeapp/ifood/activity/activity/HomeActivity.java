@@ -11,11 +11,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
-import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.ConfiguracaoFirebase;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 
 public class HomeActivity extends AppCompatActivity {
 

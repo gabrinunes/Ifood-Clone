@@ -1,4 +1,4 @@
-package gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model;
+package gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
