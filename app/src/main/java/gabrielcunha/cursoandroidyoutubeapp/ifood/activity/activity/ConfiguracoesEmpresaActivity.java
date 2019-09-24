@@ -18,8 +18,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -35,6 +40,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
     private Button buttonSalvar;
     private static final int SELECAO_GALERIA = 200;
     private StorageReference storageReference;
+    private DatabaseReference firebaseRef;
     private String idUsuarioLogado;
     private String urlImagemSelecionado ="";
 
@@ -49,9 +55,14 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         incializaComponentes();
+
         storageReference = ConfiguracaoFirebase.getFirebaseStorage();
         idUsuarioLogado = UsuarioFirebase.getIdUusuario();
+        firebaseRef = ConfiguracaoFirebase.getFirebase();
+
+        recuperaDadosEmpresa();
 
 
         buttonSalvar.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +99,8 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                     }else{
                         exibirMensagem("Digite um nome para empresa");
                     }
+
+
                 }
 
         });
@@ -107,6 +120,41 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void recuperaDadosEmpresa() {
+
+        DatabaseReference empresaRef = firebaseRef
+                .child("empresas")
+                .child(idUsuarioLogado);
+        empresaRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue()!=null){
+                    Empresa empresa = dataSnapshot.getValue(Empresa.class);
+                    nomeEmpresa.setText(empresa.getNome());
+                    categoria.setText(empresa.getCategoria());
+                    taxaEntrga.setText(empresa.getPrecoEntrega().toString());
+                    tempoEntrega.setText(empresa.getTempo());
+
+                    urlImagemSelecionado = empresa.getUrlImagem();
+                    if(urlImagemSelecionado!=""){
+                        Picasso.get()
+                                .load(urlImagemSelecionado)
+                                .into(perfilEmpresa);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(resultCode == RESULT_OK){
@@ -128,7 +176,7 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
                     perfilEmpresa.setImageBitmap(imagem);
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    imagem.compress(Bitmap.CompressFormat.JPEG.PNG,70,baos);
+                    imagem.compress(Bitmap.CompressFormat.JPEG,70,baos);
                     byte[] dadosImagem = baos.toByteArray();
 
                     StorageReference imagemRef = storageReference
@@ -166,6 +214,9 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
     }
 
 
+
+
+
     private void exibirMensagem(String texto){
         Toast.makeText(this,texto,Toast.LENGTH_SHORT).show();
     }
@@ -173,10 +224,10 @@ public class ConfiguracoesEmpresaActivity extends AppCompatActivity {
     private void incializaComponentes() {
 
         perfilEmpresa = findViewById(R.id.imagePerfilEmpresa);
-        nomeEmpresa = findViewById(R.id.editNomeEmpresa);
-        categoria = findViewById(R.id.editCategoria);
-        tempoEntrega = findViewById(R.id.editTempoEntrega);
-        taxaEntrga = findViewById(R.id.editTaxaEntrega);
+        nomeEmpresa = findViewById(R.id.NomeEmpresa);
+        categoria = findViewById(R.id.Categoria);
+        tempoEntrega = findViewById(R.id.TempoEntrega);
+        taxaEntrga = findViewById(R.id.TaxaEntrega);
         buttonSalvar = findViewById(R.id.button);
     }
 }
