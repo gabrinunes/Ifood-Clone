@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +29,7 @@ import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.adapter.AdapterEmpresa;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.listener.RecyclerItemClickListener;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Empresa;
 
 public class HomeActivity extends AppCompatActivity {
@@ -82,6 +85,32 @@ public class HomeActivity extends AppCompatActivity {
 
         //Recuperar lista de empresas
         recuperaEmpresas();
+        //Configurar evento de clique
+        recyclerEmpresas.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        this,
+                        recyclerEmpresas,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Empresa empresaSelecionada = empresas.get(position);
+                                Intent i = new Intent(HomeActivity.this,CardapioActivity.class);
+                                i.putExtra("empresa",empresaSelecionada);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        }
+                )
+        );
 
     }
 

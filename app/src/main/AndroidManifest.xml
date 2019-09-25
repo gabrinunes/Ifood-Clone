@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="gabrielcunha.cursoandroidyoutubeapp.ifood">
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.activity.ConfiguracoesUsuarioActivity"
+        <activity android:name=".activity.activity.CardapioActivity"
             android:parentActivityName=".activity.activity.HomeActivity"></activity>
+        <activity
+            android:name=".activity.activity.ConfiguracoesUsuarioActivity"
+            android:parentActivityName=".activity.activity.HomeActivity" />
         <activity
             android:name=".activity.activity.NovoProdutoEmpresaActivity"
             android:parentActivityName=".activity.activity.EmpresaActivity" />

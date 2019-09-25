@@ -2,6 +2,8 @@ package gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
+
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 
 public class Produto {

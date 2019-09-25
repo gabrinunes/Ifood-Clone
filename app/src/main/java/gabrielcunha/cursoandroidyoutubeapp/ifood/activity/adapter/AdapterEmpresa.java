@@ -1,7 +1,5 @@
 package gabrielcunha.cursoandroidyoutubeapp.ifood.activity.adapter;
 
-import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,11 +62,11 @@ public class AdapterEmpresa extends RecyclerView.Adapter<AdapterEmpresa.MyViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            nomeEmpresa = itemView.findViewById(R.id.textNomeEmpresa);
+            nomeEmpresa = itemView.findViewById(R.id.textNomeEmpresaCardapio);
             categoria = itemView.findViewById(R.id.textCategoriaEmpresa);
             tempo = itemView.findViewById(R.id.textTempoEmpresa);
             entrega = itemView.findViewById(R.id.textEntregaEmpresa);
-            imagemEmpresa = itemView.findViewById(R.id.imageEmpresa);
+            imagemEmpresa = itemView.findViewById(R.id.imageEmpresaCardapio);
         }
     }
 }

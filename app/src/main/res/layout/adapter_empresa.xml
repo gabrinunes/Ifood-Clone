@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageEmpresa"
+            android:id="@+id/imageEmpresaCardapio"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/perfil" />
@@ -26,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textNomeEmpresa"
+                android:id="@+id/textNomeEmpresaCardapio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="China in box"

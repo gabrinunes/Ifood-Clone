@@ -17,7 +17,7 @@ import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Produto;
 
 public class AdapterProduto extends RecyclerView.Adapter<AdapterProduto.MyViewHolder>{
 
-    private List<Produto> produtos;
+    private List<Produto> produtos ;
     private Context context;
 
     public AdapterProduto(List<Produto> produtos, Context context) {
