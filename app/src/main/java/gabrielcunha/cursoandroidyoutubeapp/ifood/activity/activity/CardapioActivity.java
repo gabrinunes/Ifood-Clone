@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.listener.RecyclerItemClickListener;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Empresa;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.ItemPedido;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Pedido;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Produto;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Usuario;
 
@@ -52,7 +54,11 @@ public class CardapioActivity extends AppCompatActivity {
     private DatabaseReference firebaseRef;
     private AlertDialog dialog;
     private Usuario usuario;
+    private Pedido pedidoRecuperado;
     private String idUsuarioLogado;
+    private String idEmpresa;
+    private int qtdItensCarrinho;
+    private Double totalCarrinho;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +112,7 @@ public class CardapioActivity extends AppCompatActivity {
             empresaSelecionada = (Empresa) bundle.getSerializable("empresa");
 
             textNomeEmpresaCardapio.setText(empresaSelecionada.getNome());
-            String idEmpresa = empresaSelecionada.getIdUsuario();
+            idEmpresa = empresaSelecionada.getIdUsuario();
             Log.i("get", "get:idUsuario " + idEmpresa);
             //Recuperar ProdutoCardapio
             recuperaProdutoCardapio(idEmpresa);
@@ -147,13 +153,14 @@ public class CardapioActivity extends AppCompatActivity {
                 itemPedido.setNomeProduto(produtoSelecionado.getNome());
                 itemPedido.setPreco(produtoSelecionado.getPreco());
                 itemPedido.setQuantidade(Integer.parseInt(quantidade));
-                for (ItemPedido item : itensCarrinho) {
-
-                    if (!item.getIdProduto().equals(produtoSelecionado.getIdProduto())) {
-                        itensCarrinho.add(itemPedido);
+                itensCarrinho.add(itemPedido);
+                    if(pedidoRecuperado == null){
+                        pedidoRecuperado = new Pedido(idUsuarioLogado,idEmpresa);
                     }
-                }
-
+                    pedidoRecuperado.setNome(usuario.getNome());
+                    pedidoRecuperado.setEndereco(usuario.getEndereco());
+                    pedidoRecuperado.setItens(itensCarrinho);
+                    pedidoRecuperado.salvar();
 
             }
         });
@@ -201,7 +208,43 @@ public class CardapioActivity extends AppCompatActivity {
 
     private void recuperarPedido() {
 
-        dialog.dismiss();
+        DatabaseReference pedidoRef = firebaseRef
+                .child("pedidos_usuario")
+                .child(idUsuarioLogado)
+                .child(idEmpresa);
+        pedidoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                qtdItensCarrinho =0;
+                totalCarrinho = 0.0;
+                if(dataSnapshot.getValue()!=null){
+
+                    pedidoRecuperado = dataSnapshot.getValue(Pedido.class);
+                    itensCarrinho = pedidoRecuperado.getItens();
+
+                    for(ItemPedido itemPedido: itensCarrinho){
+
+                        int qtde = itemPedido.getQuantidade();
+                        Double preco = itemPedido.getPreco();
+
+                        totalCarrinho += (qtde*preco);//Sinal de + acumula valores
+                        qtdItensCarrinho+= qtde;
+                    }
+                }
+
+                DecimalFormat df = new DecimalFormat("0.00");
+
+                textCarrinhoQtd.setText("qtd: " + String.valueOf(qtdItensCarrinho));
+                textCarrinhoTotal.setText("R$ "+ df.format(totalCarrinho));
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void recuperaProdutoCardapio(String id) {
