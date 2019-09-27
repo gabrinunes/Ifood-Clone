@@ -1,12 +1,17 @@
 package gabrielcunha.cursoandroidyoutubeapp.ifood.activity.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,23 +24,27 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.adapter.AdapterProduto;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Empresa;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Produto;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Usuario;
 
 public class CardapioActivity extends AppCompatActivity {
 
     private RecyclerView recyclerCardapio;
     private ImageView imageEmpresaCardapio;
-    private TextView textNomeEmpresaCardapio;
+    private TextView textNomeEmpresaCardapio,textCarrinhoQtd,textCarrinhoTotal;
     private Empresa empresaSelecionada;
     private AdapterProduto adapterProduto;
     private List<Produto> produtos = new ArrayList<>();
     private DatabaseReference firebaseRef;
-    private String idEmpresa;
+    private AlertDialog dialog;
+    private Usuario usuario;
+    private String idUsuarioLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,7 @@ public class CardapioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cardapio);
 
         firebaseRef = ConfiguracaoFirebase.getFirebase();
+        idUsuarioLogado = UsuarioFirebase.getIdUusuario();
         inicializarComponentes();
 
         //Configura Adapter
@@ -54,10 +64,8 @@ public class CardapioActivity extends AppCompatActivity {
         recyclerCardapio.setHasFixedSize(true);
         recyclerCardapio.setAdapter(adapterProduto);
 
+        recuperarDadosUsuario();
 
-
-        //Recuperar ProdutoCardapio
-        //recuperaProdutoCardapio();
 
         //Recuperar empresa selecionada
         Bundle bundle = getIntent().getExtras();
@@ -67,6 +75,7 @@ public class CardapioActivity extends AppCompatActivity {
             textNomeEmpresaCardapio.setText(empresaSelecionada.getNome());
              String idEmpresa = empresaSelecionada.getIdUsuario();
             Log.i("get", "get:idUsuario " + idEmpresa);
+            //Recuperar ProdutoCardapio
             recuperaProdutoCardapio(idEmpresa);
 
             String url = empresaSelecionada.getUrlImagem();
@@ -81,6 +90,41 @@ public class CardapioActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    }
+
+    private void recuperarDadosUsuario() {
+
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Carregando dados")
+                .setCancelable(false)
+                .build();
+        dialog.show();
+
+        DatabaseReference usuariosRef = firebaseRef
+                .child("usuarios")
+                .child(idUsuarioLogado);
+        usuariosRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()!=null){
+                    usuario = dataSnapshot.getValue(Usuario.class);
+                }
+                recuperarPedido();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void recuperarPedido() {
+
+        dialog.dismiss();
     }
 
     private void recuperaProdutoCardapio(String id) {
@@ -114,6 +158,25 @@ public class CardapioActivity extends AppCompatActivity {
         recyclerCardapio = findViewById(R.id.recyclerCardapio);
         imageEmpresaCardapio = findViewById(R.id.imageEmpresaCardapio);
         textNomeEmpresaCardapio = findViewById(R.id.textNomeEmpresaCardapio);
+        textCarrinhoQtd = findViewById(R.id.textCarrinhoQtd);
+        textCarrinhoTotal = findViewById(R.id.textCarrinhoTotal);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_cardapio,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menuPedido:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
