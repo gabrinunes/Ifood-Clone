@@ -24,6 +24,7 @@ import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.adapter.AdapterPedido;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Pedido;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Produto;
 
 public class PedidosActivity extends AppCompatActivity {
 
@@ -82,16 +83,17 @@ public class PedidosActivity extends AppCompatActivity {
                 pedidos.clear();
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        pedidos.add(ds.getValue(Pedido.class));
+                        Pedido pedido = ds.getValue(Pedido.class);
+                        pedidos.add(pedido);
                     }
                     adapterPedido.notifyDataSetChanged();
                     dialog.dismiss();
                 }
-                if (dataSnapshot.getValue() == null) {
-                    dialog.dismiss();
-                    Toast.makeText(PedidosActivity.this, "Não há pedidos no momento", Toast.LENGTH_SHORT).show();
+                //if (dataSnapshot.getValue() == null) {
+                    //dialog.dismiss();
+                    //Toast.makeText(PedidosActivity.this, "Não há pedidos no momento", Toast.LENGTH_SHORT).show();
                 }
-            }
+            //}
 
 
             @Override
