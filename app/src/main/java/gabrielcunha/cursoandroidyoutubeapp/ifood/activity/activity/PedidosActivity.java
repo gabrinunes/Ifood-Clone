@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +25,7 @@ import gabrielcunha.cursoandroidyoutubeapp.ifood.R;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.adapter.AdapterPedido;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.ConfiguracaoFirebase;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.helper.UsuarioFirebase;
+import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.listener.RecyclerItemClickListener;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Pedido;
 import gabrielcunha.cursoandroidyoutubeapp.ifood.activity.model.Produto;
 
@@ -61,6 +64,32 @@ public class PedidosActivity extends AppCompatActivity {
 
         recuperarPedidos();
 
+        //Adiciona Evento de clique no recyclerView
+        recyclerPedidos.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        this,
+                        recyclerPedidos,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+                                Pedido pedido = pedidos.get(position);
+                                pedido.setStatus("finalizado");
+                                pedido.atualizarStatus();
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                            }
+                        }
+                )
+        );
+
 
     }
 
@@ -83,17 +112,18 @@ public class PedidosActivity extends AppCompatActivity {
                 pedidos.clear();
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Pedido pedido = ds.getValue(Pedido.class);
-                        pedidos.add(pedido);
+                        //Pedido pedido = ds.getValue(Pedido.class);
+                        //pedidos.add(pedido);
+                        pedidos.add(ds.getValue(Pedido.class));
                     }
                     adapterPedido.notifyDataSetChanged();
                     dialog.dismiss();
                 }
-                //if (dataSnapshot.getValue() == null) {
-                    //dialog.dismiss();
-                    //Toast.makeText(PedidosActivity.this, "Não há pedidos no momento", Toast.LENGTH_SHORT).show();
+                if (dataSnapshot.getValue() == null) {
+                    dialog.dismiss();
+                    Toast.makeText(PedidosActivity.this, "Não há pedidos no momento", Toast.LENGTH_SHORT).show();
                 }
-            //}
+            }
 
 
             @Override

@@ -219,6 +219,7 @@ public class CardapioActivity extends AppCompatActivity {
 
                 qtdItensCarrinho =0;
                 totalCarrinho = 0.0;
+                itensCarrinho.clear();
                 if(dataSnapshot.getValue()!=null){
 
                     pedidoRecuperado = dataSnapshot.getValue(Pedido.class);
