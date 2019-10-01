@@ -59,6 +59,7 @@ public class CardapioActivity extends AppCompatActivity {
     private String idEmpresa;
     private int qtdItensCarrinho;
     private Double totalCarrinho;
+    private int metodoPagamento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,8 +296,52 @@ public class CardapioActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.menuPedido:
+                confirmarPedido();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmarPedido() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecione um método de pagamento");
+
+        CharSequence[] itens = new CharSequence[]{
+                "Dinheiro", "Máquina cartão"
+        };
+        builder.setSingleChoiceItems(itens, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int wich) {
+              metodoPagamento = wich;
+            }
+        });
+
+        final EditText editObservacao = new EditText(this);
+        editObservacao.setHint("Digite uma oberservação");
+        builder.setView(editObservacao);
+
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String observacao = editObservacao.getText().toString();
+                pedidoRecuperado.setMetodoPagamento(metodoPagamento);
+                pedidoRecuperado.setObservacao(observacao);
+                pedidoRecuperado.setStatus("confirmado");
+                pedidoRecuperado.confirmar();
+                pedidoRecuperado.remover();
+                pedidoRecuperado = null;
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
