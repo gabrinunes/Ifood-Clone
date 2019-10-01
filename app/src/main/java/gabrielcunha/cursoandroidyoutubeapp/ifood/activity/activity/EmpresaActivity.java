@@ -134,6 +134,7 @@ public class EmpresaActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_empresa,menu);
+        inflater.inflate(R.menu.menu_pedidos,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -149,8 +150,15 @@ public class EmpresaActivity extends AppCompatActivity {
             case R.id.menuNovoProduto:
                 abrirNovoProduto();
                 break;
+            case R.id.menuPedido:
+                abrirPedidos();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void abrirPedidos() {
+        startActivity(new Intent(EmpresaActivity.this,PedidosActivity.class));
     }
 
     private void abrirNovoProduto(){

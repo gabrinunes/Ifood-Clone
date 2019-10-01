@@ -140,7 +140,7 @@ public class Pedido {
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebase();
         DatabaseReference pedidoRef = firebaseRef
                 .child("pedidos")
-                .child(getIdEmpresa())
+                .child(getIdUsuario())
                 .child(getIdPedido());
         pedidoRef.setValue(this);
     }
