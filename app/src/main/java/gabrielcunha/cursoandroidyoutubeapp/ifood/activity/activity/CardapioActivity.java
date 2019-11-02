@@ -53,7 +53,7 @@ public class CardapioActivity extends AppCompatActivity {
     private List<ItemPedido> itensCarrinho = new ArrayList<>();
     private DatabaseReference firebaseRef;
     private AlertDialog dialog;
-    private Usuario usuario;
+    private Usuario usuario ;
     private Pedido pedidoRecuperado;
     private String idUsuarioLogado;
     private String idEmpresa;
@@ -69,6 +69,8 @@ public class CardapioActivity extends AppCompatActivity {
         firebaseRef = ConfiguracaoFirebase.getFirebase();
         idUsuarioLogado = UsuarioFirebase.getIdUusuario();
         inicializarComponentes();
+
+        usuario = new Usuario();
 
         //Configura Adapter
         adapterProduto = new AdapterProduto(produtos, this);
